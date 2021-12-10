@@ -6,7 +6,6 @@ load_dotenv()
 
 intents = discord.Intents.default()
 intents.members = True
-
 client = discord.Client(intents=intents)
 
 
