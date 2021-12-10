@@ -8,7 +8,6 @@ intents = discord.Intents.default()
 intents.members = True
 client = discord.Client(intents=intents)
 
-
 @client.event
 async def on_ready():
     print(f'{client.user.name} has connected to Discord!')
@@ -32,8 +31,17 @@ async def on_member_join(member):
 @client.event
 async def on_message(message):
     print('Message from {0.author}: {0.content}'.format(message))
+    muted = message.author.guild.get_role(918988171444887592)
+    if muted in message.author.roles:
+        await message.delete()
+        print(f'Message: {message.content} DELETED!')
+
     if message.content[0] == '$':
         print(f'Attempting Command: {message.content}')
+    if message.content == '$ping':
+        await message.channel.send('Pinging {}'.format(message.author.mention))
+    if message.content == '$mute':
+        print(f"Work in Progress")
 
 
 @client.event
@@ -46,5 +54,7 @@ async def on_error(event, *args, **kwargs):
 
 
 token = os.getenv('Token')
-client.run(token)
-bot.run(token)
+try:
+    client.run(token)
+except Exception as e:
+    print('Unable to run: {}'.format(e))
