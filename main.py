@@ -2,8 +2,8 @@ import os
 from dotenv import load_dotenv
 import discord
 
-load_dotenv()
 
+load_dotenv()
 intents = discord.Intents.default()
 intents.members = True
 client = discord.Client(intents=intents)
@@ -32,6 +32,8 @@ async def on_member_join(member):
 @client.event
 async def on_message(message):
     print('Message from {0.author}: {0.content}'.format(message))
+    if message.content[0] == '$':
+        print(f'Attempting Command: {message.content}')
 
 
 @client.event
@@ -45,3 +47,4 @@ async def on_error(event, *args, **kwargs):
 
 token = os.getenv('Token')
 client.run(token)
+bot.run(token)
