@@ -1,4 +1,8 @@
+import os
+from dotenv import load_dotenv
 import discord
+
+load_dotenv()
 
 intents = discord.Intents.default()
 intents.members = True
@@ -9,7 +13,6 @@ client = discord.Client(intents=intents)
 @client.event
 async def on_ready():
     print(f'{client.user.name} has connected to Discord!')
-    print('This is here')
 
 
 @client.event
@@ -28,5 +31,5 @@ async def on_error(event, *args, **kwargs):
         else:
             raise
 
-
-client.run('OTE4NjMwNjExMjIzMTkxNTYy.YbKDbQ.nK62jcUVYYJ6cyVQfB80sJWzmsY')
+token = os.getenv('Token')
+client.run(token)
