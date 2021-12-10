@@ -10,13 +10,9 @@ intents.members = True
 client = discord.Client(intents=intents)
 
 
-
 @client.event
 async def on_ready():
     print(f'{client.user.name} has connected to Discord!')
-    member_count = len(client.users)
-    print(member_count)
-
 
 
 @client.event
@@ -28,9 +24,15 @@ async def on_member_join(member):
 
     channel = client.get_channel(872376054612906014)
     member_count = len(client.users)
-    await channel.send('Hi there {}, welcome to Cyber Defense Club! Please read our #rules and check out '
-                       'our #roles section to become a member. If you need any assistance please ask for an '
-                       'admin. ({} members!)'.format(member.mention, member_count))
+    await channel.send(
+        f'Hi there {member.mention}, welcome to Cyber Defense Club! Please read our #rules and check out '
+        f'our #roles section to become a member. If you need any assistance please ask for an '
+        f'admin. ({member_count} members!)')
+
+
+@client.event
+async def on_message(message):
+    print('Message from {0.author}: {0.content}'.format(message))
 
 
 @client.event
