@@ -3,26 +3,30 @@ from dotenv import load_dotenv
 import discord
 from discord.utils import get
 
+# Load all env vars
 load_dotenv()
+
+# Enable intents
 intents = discord.Intents.default()
 intents.members = True
 intents.reactions = True
 client = discord.Client(intents=intents)
 
 
+# Displays start-up
 @client.event
 async def on_ready():
     print(f'{client.user.name} has connected to Discord!')
 
 
+# Displays a welcome message to member
 @client.event
 async def on_member_join(member):
     await member.create_dm()
     await member.dm_channel.send(
         f'Hi {member.name}, welcome to the Lewis\'s Cyber Defense Club server!'
     )
-
-    channel = client.get_channel(872376054612906014)
+    channel = client.get_channel(channel1)
     member_count = len(client.users)
     await channel.send(
         f'Hi there {member.mention}, welcome to Cyber Defense Club! Please read our #rules and check out '
@@ -30,18 +34,14 @@ async def on_member_join(member):
         f'admin. ({member_count} members!)')
 
 
+# Display messages from users and look for commands
 @client.event
 async def on_message(message):
-    print('Message from {0.author}: {0.content}'.format(message))
-    muted = message.author.guild.get_role(918988171444887592)
-    if muted in message.author.roles:
-        await message.delete()
-        print(f'Message: {message.content} DELETED!')
 
     if message.content[0] == '$':
         print(f'Attempting Command: {message.content}')
     if message.content == '$help':
-        await message     .channel.send('Here are the following commands {}:\n\n$help -Displays Commands'
+        await message.channel.send('Here are the following commands {}:\n\n$help -Displays Commands'
                                    '\n$ping -Ping the bot\n\n More to come!'.format(message.author.mention))
     if message.content == '$ping':
         await message.channel.send('Pinging {}'.format(message.author.mention))
@@ -49,9 +49,10 @@ async def on_message(message):
         print(f"Work in Progress")
 
 
+# Adds role to user based of reaction
 @client.event
 async def on_raw_reaction_add(payload):
-    channel = 882791223960682517
+    channel = channel2
     if payload.channel_id != channel:
         return
     else:
@@ -110,8 +111,9 @@ async def on_raw_reaction_add(payload):
             print(f'[+] Adding {member.nick} to the Order of the Purple Flamingo!')
 
 
+# Errors are bad
 @client.event
-async def on_error(event, *args, **kwargs):
+async def on_error(event, *args):
     with open('err.log', 'a') as f:
         if event == 'on_message':
             f.write(f'Unhandled message: {args[0]}\n')
@@ -119,7 +121,10 @@ async def on_error(event, *args, **kwargs):
             raise
 
 
+# Main
 token = os.getenv('Token')
+channel1 = int(os.getenv('welcome_channel'))
+channel2 = int(os.getenv('role_channel'))
 try:
     client.run(token)
 except Exception as e:
