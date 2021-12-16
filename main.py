@@ -137,6 +137,7 @@ async def on_error(event, *args):
         raise
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ##################################################################################
 youtube_dl.utils.bug_reports_message = lambda: ''
 ytdl_format_options = {
@@ -250,6 +251,8 @@ def dlist(files):
     for file in files:
         os.remove(file)
 
+=======
+>>>>>>> parent of 22ba527 (Yeah music)
 =======
 >>>>>>> parent of 22ba527 (Yeah music)
 
