@@ -1,13 +1,8 @@
-import asyncio
 import os
 import discord
-import logging
-import youtube_dl as youtube_dl
 from dotenv import load_dotenv
 from discord.utils import get
-from discord.ext import commands, tasks
-
-# python3 -m pip install -U discord.py[voice]
+import logging
 
 # Load all env vars
 load_dotenv()
@@ -16,30 +11,31 @@ channel1 = int(os.getenv('welcome_channel'))
 channel2 = int(os.getenv('role_channel'))
 
 # Enable intents
-intents = discord.Intents().all()
+intents = discord.Intents.default()
+intents.members = True
+intents.reactions = True
 client = discord.Client(intents=intents)
-bot = commands.Bot(command_prefix='!', intents=intents)
 
 # Logging
 logging.basicConfig(filename='Bot.log', level=logging.INFO, format='%(asctime)s %(message)s')
 
 
 # Displays start-up
-@bot.event
+@client.event
 async def on_ready():
-    print(f'{bot.user.name} has connected to Discord!')
-    logging.info('{} has connected to Discord'.format(bot.user.name))
+    print(f'{client.user.name} has connected to Discord!')
+    logging.info('{} has connected to Discord'.format(client.user.name))
 
 
 # Displays a welcome message to member
-@bot.event
+@client.event
 async def on_member_join(member):
     await member.create_dm()
     await member.dm_channel.send(
         f'Hi {member.name}, welcome to the Lewis\'s Cyber Defense Club server!'
     )
-    channel = bot.get_channel(channel1)
-    member_count = len(bot.users)
+    channel = client.get_channel(channel1)
+    member_count = len(client.users)
     await channel.send(
         f'Hi there {member.mention}, welcome to Cyber Defense Club! Please read our #rules and check out '
         f'our #roles section to become a member. If you need any assistance please ask for an '
@@ -47,10 +43,22 @@ async def on_member_join(member):
 
 
 # Display messages from users and look for commands
+@client.event
+async def on_message(message):
+    if message.content[0] == '$':
+        print(f'Attempting Command: {message.content}')
+        logging.info('Attempting Command: {}'.format(message.content))
+    if message.content == '$help':
+        await message.channel.send('Here are the following commands {}:\n\n$help -Displays Commands'
+                                   '\n$ping -Ping the bot\n\n More to come!'.format(message.author.mention))
+    if message.content == '$ping':
+        await message.channel.send('Pinging {}'.format(message.author.mention))
+    if message.content == '$mute':
+        print(f"Work in Progress")
 
 
 # Adds role to user based of reaction
-@bot.event
+@client.event
 async def on_raw_reaction_add(payload):
     channel = channel2
     if payload.channel_id != channel:
@@ -121,13 +129,14 @@ async def on_raw_reaction_add(payload):
 
 
 # Errors are bad
-@bot.event
+@client.event
 async def on_error(event, *args):
     if event == 'on_message':
         logging.info('\nUnhandled message: {}\n'.format(args[0]))
     else:
         raise
 
+<<<<<<< HEAD
 ##################################################################################
 youtube_dl.utils.bug_reports_message = lambda: ''
 ytdl_format_options = {
@@ -241,8 +250,8 @@ def dlist(files):
     for file in files:
         os.remove(file)
 
+=======
+>>>>>>> parent of 22ba527 (Yeah music)
 
 # Main
-filesList = []
-bot.run(token)
-dlist(filesList)
+client.run(token)
