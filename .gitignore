@@ -2,3 +2,5 @@
 .env
 err.log
 *.log
+*.pyc
+ffmpeg.exe
