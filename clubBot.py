@@ -1,19 +1,23 @@
+"""
+
+    Jorge E. Campos II
+    Cyber Defense Club Discord BOT
+    Date: 12.20.21
+
+"""
+
 import logging
 import os
-
+from DiscordBot.botApis.googleApi import _googleApiClient, gSearch
 import discord
 from discord.ext import commands
 from discord.utils import get
 from dotenv import load_dotenv
 
-import _googleApiClient
-import gSearch
 
 # python3 -m pip install -U discord.py[voice]
 
 # Load all env vars
-
-
 load_dotenv()
 token = os.getenv('Token')
 channel1 = int(os.getenv('welcome_channel'))

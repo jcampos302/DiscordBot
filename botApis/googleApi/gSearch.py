@@ -1,4 +1,4 @@
-import _googleApiClient
+from DiscordBot.botApis.googleApi import _googleApiClient
 import click
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
