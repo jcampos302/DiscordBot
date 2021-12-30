@@ -8,7 +8,7 @@
 
 import logging
 import os
-from DiscordBot.botApis.googleApi import _googleApiClient, gSearch
+from botApis.googleApi import _googleApiClient, gSearch
 import discord
 from discord.ext import commands
 from discord.utils import get

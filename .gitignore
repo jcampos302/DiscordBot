@@ -4,3 +4,4 @@ err.log
 *.log
 *.pyc
 ffmpeg.exe
+test.py
